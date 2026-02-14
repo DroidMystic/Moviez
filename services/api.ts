@@ -4,7 +4,7 @@ export const TMDB_CONFIG= {
     API_KEY:process.env.EXPO_PUBLIC_TMTB_API_KEY,
     headers:{
         accept: 'application/json',
-        Authorization: `Bearer ${process.env.EXPO_PUBLIC_TMTB_API_KEY}`
+        Authorization: `Bearer ${process.env.EXPO_PUBLIC_TMDB_API_KEY}`
     }
 }
 
