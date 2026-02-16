@@ -5,6 +5,7 @@ import { images } from "@/constants/images";
 import { fetchMovies } from "@/services/api";
 import useFetch from "@/services/useFetch";
 import { useRouter } from "expo-router";
+import { useState } from "react";
 import {
   ActivityIndicator,
   FlatList,
@@ -16,24 +17,26 @@ import {
 
 export default function Index() {
   const router = useRouter();
+  const [searchValue, setSearchValue] = useState("");
 
   const {
     data: movies,
     loading: moviesLoading,
     error: moviesError,
-  } = useFetch(() => fetchMovies({ query: '' }));
+  } = useFetch(() => fetchMovies({ query: "" }));
 
   return (
     <View className="flex-1 bg-primary">
-      <Image 
-      source={images.bg} 
-      className="absolute w-full z-0" resizeMode="cover"
+      <Image
+        source={images.bg}
+        className="absolute w-full z-0"
+        resizeMode="cover"
       />
 
       <ScrollView
         className="flex-1 px-5"
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ minHeight:'100%',marginBottom: 120 }}
+        contentContainerStyle={{ minHeight: "100%", marginBottom: 120 }}
       >
         <Image source={icons.logo} className="w-12 h-10 mt-20 mb-5 mx-auto" />
 
@@ -48,6 +51,8 @@ export default function Index() {
         ) : (
           <View className="flex-1 mt-5">
             <SearchBar
+              value={searchValue}
+              onChangeText={setSearchValue}
               onPress={() => router.push("/search")}
               placeholder="Search for a movie"
             />
@@ -57,23 +62,18 @@ export default function Index() {
               </Text>
               <FlatList
                 data={movies ?? []}
-                renderItem={({ item }) => (
-                  <MovieCard
-                  {...item}
-                  />
-                )}
-                keyExtractor={(item)=>item.id
-                  .toString()}
-                  numColumns={3}
-                  columnWrapperStyle={{
-                    justifyContent:'flex-start',
-                    gap:20,
-                    paddingRight:5,
-                    marginBottom:10
-                  }}
-                  className="mt-2 pb-32"
-                  scrollEnabled={false}
-                  removeClippedSubviews={false}
+                renderItem={({ item }) => <MovieCard {...item} />}
+                keyExtractor={(item) => item.id.toString()}
+                numColumns={3}
+                columnWrapperStyle={{
+                  justifyContent: "flex-start",
+                  gap: 20,
+                  paddingRight: 5,
+                  marginBottom: 10,
+                }}
+                className="mt-2 pb-32"
+                scrollEnabled={false}
+                removeClippedSubviews={false}
               />
             </>
           </View>
